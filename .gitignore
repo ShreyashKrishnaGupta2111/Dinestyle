@@ -1,0 +1,7 @@
+
+.env
+node_modules/
+velvet-table.sqlite
+velvet-table.sqlite-shm
+velvet-table.sqlite-wal
+.DS_Store
