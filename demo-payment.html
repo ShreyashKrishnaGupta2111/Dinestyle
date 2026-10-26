@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELVET TABLE | Demo Checkout</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;display:grid;place-items:center;
+  background:#11100f;color:#fff;font-family:Arial,sans-serif;padding:20px
+}
+.card{
+  width:100%;max-width:420px;padding:30px;border:1px solid #b89a59;
+  border-radius:22px;background:#1c1a17;box-shadow:0 15px 60px #0008
+}
+h1{color:#d9b66f;letter-spacing:3px;text-align:center}
+.muted{color:#aaa;text-align:center}
+.amount{font-size:34px;text-align:center;margin:24px 0;color:#f1d89d}
+button{
+  width:100%;padding:15px;margin:8px 0;border:0;border-radius:10px;
+  font-size:16px;font-weight:bold;cursor:pointer
+}
+.razor{background:#3395ff;color:white}
+.paypal{background:#ffc439;color:#172c55}
+.cash{background:#333;color:white;border:1px solid #777}
+.note{font-size:12px;color:#bbb;text-align:center;margin-top:20px}
+#result{margin-top:18px;text-align:center;color:#8ce0a1}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>VELVET TABLE</h1>
+  <p class="muted">Secure Checkout · Student Demo</p>
+  <hr style="border-color:#444">
+  <p class="muted">Your order total</p>
+  <div class="amount">₹850.00</div>
+
+  <button class="razor" onclick="demo('Razorpay')">
+    Pay with Razorpay
+  </button>
+
+  <button class="paypal" onclick="demo('PayPal')">
+    Pay with PayPal
+  </button>
+
+  <button class="cash" onclick="demo('Cash')">
+    Cash at Counter
+  </button>
+
+  <div id="result"></div>
+  <p class="note">
+    DEMO ONLY — No real payment is processed.
+  </p>
+</div>
+
+<script>
+function demo(method) {
+  const result = document.getElementById("result");
+  result.textContent =
+    "✓ Demo successful! " + method +
+    " selected. No money was charged.";
+}
+</script>
+</body>
+</html>
