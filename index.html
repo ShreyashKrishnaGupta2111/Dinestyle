@@ -1,272 +1,67 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#11100e">
-<title>VELVET TABLE — Order Online</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELVET TABLE | Demo Checkout</title>
 <style>
-:root{--bg:#11100e;--panel:#1c1a17;--gold:#e5bd78;--muted:#aaa094;--white:#fffaf1;--line:#ffffff18}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at 80% 0%,#38291c,transparent 40%),var(--bg);color:var(--white);font-family:"DM Sans",sans-serif}
-button,input,select,textarea{font:inherit}button{cursor:pointer}
-header{position:sticky;top:0;z-index:5;background:#11100eed;backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:15px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{font:600 23px "Playfair Display",serif;letter-spacing:2px;color:var(--gold)}
-.brand small{display:block;font:9px "DM Sans";letter-spacing:4px;text-align:center;color:var(--muted)}
-button{border-radius:24px;padding:11px 15px;font-weight:700}
-.gold{background:var(--gold);color:#20170c;border:0}
-.outline{background:var(--panel);color:white;border:1px solid var(--line)}
-.hero{padding:45px 5% 30px;max-width:1250px;margin:auto}
-.eyebrow{color:var(--gold);letter-spacing:3px;font-size:11px;font-weight:bold}
-h1{font:clamp(42px,8vw,76px)/1.06 "Playfair Display",serif;margin:18px 0}
-h1 span{color:var(--gold);font-style:italic}
-.hero p{color:var(--muted);max-width:510px;line-height:1.8}
-.hero-image{height:220px;margin-top:25px;border-radius:24px;background:linear-gradient(90deg,#11100ee8,#11100e08),url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1500&q=85") center/cover;box-shadow:0 20px 65px #0008;display:flex;align-items:end;padding:24px;transform:perspective(900px) rotateX(1deg)}
-.hero-image span{background:#11100ec9;border:1px solid #ffffff25;padding:10px 14px;border-radius:25px;font-size:12px}
-main{max-width:1250px;margin:auto;padding:0 5% 125px}
-.strip{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px}
-.strip span{border:1px solid var(--line);border-radius:24px;padding:8px 12px;color:var(--muted);font-size:12px}
-.search,.field{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:var(--panel);color:white;outline:none;margin:7px 0 14px}
-.search:focus,.field:focus{border-color:var(--gold)}
-.categories{display:flex;gap:9px;overflow:auto;padding:4px 0 20px;scrollbar-width:none}
-.categories button{flex-shrink:0;background:var(--panel);border:1px solid var(--line);color:var(--muted)}
-.categories button.active{background:var(--gold);color:#20170c}
-h2{font:30px "Playfair Display",serif;margin:16px 0 6px}
-.sub{color:var(--muted);font-size:13px;margin-bottom:22px}
-.menu-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.food-card{min-width:0;background:linear-gradient(145deg,#24211d,#171614);border:1px solid var(--line);border-radius:20px;padding:10px;transition:.25s;animation:appear .4s ease both}
-.food-card:hover{transform:translateY(-5px);border-color:#e5bd7866}
-.food-image{width:100%;height:155px;object-fit:cover;border-radius:14px;display:block;background:#2a2722}
-.food-info{padding:13px 5px 5px}.food-name{font-weight:700;font-size:15px}
-.food-desc{font-size:12px;color:var(--muted);line-height:1.5;margin:7px 0;min-height:36px}
-.food-bottom{display:flex;align-items:center;justify-content:space-between;gap:6px}
-.price{color:var(--gold);font-weight:700}
-.add{border:1px solid var(--gold);background:transparent;color:var(--gold);border-radius:12px;width:38px;height:38px;font-size:22px;padding:0}
-.tag{font-size:10px;color:#a8ddb2;margin-top:7px}.nonveg{color:#f3a18e}
-@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;z-index:6;background:#191714f5;backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:12px 5%;display:flex;justify-content:space-between;align-items:center}
-.overlay{position:fixed;inset:0;background:#000b;z-index:10;display:none;justify-content:flex-end}
-.overlay.open{display:flex}.drawer{background:#191714;width:min(470px,100%);height:100%;overflow:auto;padding:24px}
-.drawer-head{display:flex;justify-content:space-between;align-items:center}
-.close{background:none;border:0;color:white;font-size:27px;padding:4px}
-.cart-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:16px 0;border-bottom:1px solid var(--line)}
-.qty{display:flex;align-items:center;gap:12px}.qty button{border:1px solid #ffffff25;background:#29251f;color:white;width:30px;height:30px;padding:0}
-.label{font-size:12px;color:var(--muted)}
-.total-row{display:flex;justify-content:space-between;margin:13px 0;color:var(--muted)}
-.final{font-size:20px;color:var(--gold);font-weight:bold}
-.pay{width:100%;margin-top:8px;padding:15px}
-.status{font-size:13px;line-height:1.6;margin-top:12px;overflow-wrap:anywhere}
-.empty{text-align:center;color:var(--muted);padding:40px 0}
-.notice{background:#272116;border:1px solid #765c32;color:#f1d6a4;padding:12px;border-radius:12px;font-size:12px;line-height:1.6;margin:12px 0}
-.qr-modal{position:fixed;inset:0;background:#000c;z-index:20;display:none;place-items:center;padding:20px}
-.qr-modal.open{display:grid}.qr-card{background:#1b1916;border:1px solid var(--line);border-radius:22px;padding:25px;text-align:center;max-width:360px;width:100%}
-#qrCode{background:white;padding:12px;display:inline-block;margin:15px auto;border-radius:8px}
-footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}
-@media(max-width:700px){.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.food-image{height:125px}.food-card{padding:7px;border-radius:16px}.food-info{padding:11px 3px 4px}.food-name{font-size:13px}.food-desc{font-size:11px;min-height:48px}.add{width:34px;height:34px}.hero{padding-top:35px}.hero-image{height:175px}.brand{font-size:18px}.header-actions button{padding:9px;font-size:11px}}
-@media(max-width:350px){.menu-grid{grid-template-columns:1fr}.food-image{height:180px}}
+body{
+  margin:0;min-height:100vh;display:grid;place-items:center;
+  background:#11100f;color:#fff;font-family:Arial,sans-serif;padding:20px
+}
+.card{
+  width:100%;max-width:420px;padding:30px;border:1px solid #b89a59;
+  border-radius:22px;background:#1c1a17;box-shadow:0 15px 60px #0008
+}
+h1{color:#d9b66f;letter-spacing:3px;text-align:center}
+.muted{color:#aaa;text-align:center}
+.amount{font-size:34px;text-align:center;margin:24px 0;color:#f1d89d}
+button{
+  width:100%;padding:15px;margin:8px 0;border:0;border-radius:10px;
+  font-size:16px;font-weight:bold;cursor:pointer
+}
+.razor{background:#3395ff;color:white}
+.paypal{background:#ffc439;color:#172c55}
+.cash{background:#333;color:white;border:1px solid #777}
+.note{font-size:12px;color:#bbb;text-align:center;margin-top:20px}
+#result{margin-top:18px;text-align:center;color:#8ce0a1}
 </style>
 </head>
 <body>
-<header>
-  <div class="brand">VELVET TABLE<small>DINING REDEFINED</small></div>
-  <div class="header-actions">
-    <button class="outline" onclick="showQR()">QR CODE</button>
-    <button class="gold" onclick="openCart()">🛍 <span id="cartCount">0</span></button>
-  </div>
-</header>
-<section class="hero">
-  <div class="eyebrow">GOOD FOOD. BEAUTIFUL MOMENTS.</div>
-  <h1>Cravings meet<br><span>craftsmanship.</span></h1>
-  <p>Explore Indian favourites, comfort classics, handcrafted desserts and refreshing drinks. Choose your favourites and order right here.</p>
-  <div class="hero-image"><span>✦ Freshly prepared · Made with love</span></div>
-</section>
-<main>
-  <div class="strip"><span id="tableBadge">✦ Browse our menu</span><span>● Dine-in & takeaway</span><span>✦ Secure checkout options</span></div>
-  <input id="search" class="search" placeholder="⌕ Search dishes, desserts, drinks..." oninput="renderMenu()">
-  <div class="categories" id="categories"></div>
-  <h2 id="sectionTitle">Our favourites</h2><div class="sub">A little something for every craving.</div>
-  <div class="menu-grid" id="menu"></div>
-</main>
-<div class="bottom-bar"><div><div style="font-size:11px;color:var(--muted)">YOUR ORDER</div><strong id="bottomTotal">₹0</strong></div><button class="gold" onclick="openCart()">View cart →</button></div>
+<div class="card">
+  <h1>VELVET TABLE</h1>
+  <p class="muted">Secure Checkout · Student Demo</p>
+  <hr style="border-color:#444">
+  <p class="muted">Your order total</p>
+  <div class="amount">₹850.00</div>
 
-<div class="overlay" id="overlay" onclick="if(event.target===this)closeCart()">
- <div class="drawer">
-  <div class="drawer-head"><h2>Your order</h2><button class="close" onclick="closeCart()">×</button></div>
-  <div id="cartItems"></div>
-  <label class="label" for="orderType">Order type</label>
-  <select id="orderType" class="field" onchange="updateOrderType()"><option value="dine-in">Dine-in</option><option value="takeaway">Takeaway</option></select>
-  <label class="label" for="table">Table number (dine-in)</label><input id="table" class="field" placeholder="e.g. 05" maxlength="10">
-  <label class="label" for="customer">Your name</label><input id="customer" class="field" placeholder="Enter your name" maxlength="80" autocomplete="name">
-  <label class="label" for="phone">Phone number</label><input id="phone" class="field" placeholder="10-digit mobile number" inputmode="tel" maxlength="15" autocomplete="tel">
-  <label class="label" for="notes">Special requests (optional)</label><textarea id="notes" class="field" placeholder="Less spicy, no onions..." maxlength="300" rows="2"></textarea>
-  <div class="total-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
-  <div class="total-row"><span>Illustrative tax (5%)</span><span id="tax">₹0</span></div>
-  <div class="total-row final"><span>Total</span><span id="total">₹0</span></div>
-  <div class="notice">Cash orders are payable at the restaurant. Online orders are confirmed only after the server verifies payment.</div>
-  <button class="gold pay" onclick="payRazorpay()">Pay online with Razorpay</button>
-  <button class="outline pay" onclick="payPayPal()">Pay online with PayPal</button>
-  <button class="outline pay" onclick="placeCashOrder()">Place cash order</button>
-  <div id="paymentStatus" class="status" role="status" aria-live="polite"></div>
- </div>
+  <button class="razor" onclick="demo('Razorpay')">
+    Pay with Razorpay
+  </button>
+
+  <button class="paypal" onclick="demo('PayPal')">
+    Pay with PayPal
+  </button>
+
+  <button class="cash" onclick="demo('Cash')">
+    Cash at Counter
+  </button>
+
+  <div id="result"></div>
+  <p class="note">
+    DEMO ONLY — No real payment is processed.
+  </p>
 </div>
-<div class="qr-modal" id="qrModal" onclick="if(event.target===this)hideQR()">
- <div class="qr-card"><button class="close" style="float:right" onclick="hideQR()">×</button><h2 style="color:var(--gold)">Table menu QR</h2><p style="color:var(--muted);font-size:13px">Scan this code to open the menu. Print a separate QR with ?table=01 for each table.</p><div id="qrCode"></div><p id="qrUrl" style="font-size:11px;overflow-wrap:anywhere;color:var(--muted)"></p><button class="gold" onclick="downloadQR()">Download QR image</button></div>
-</div>
-<footer>VELVET TABLE · Made for memorable meals ✦</footer>
 
 <script>
-/* Replace with your deployed HTTPS backend URL. */
-const API_BASE = "https://YOUR-BACKEND-DOMAIN.example.com";
-
-const categories=["All","Starters","Indian","Pizza","Burgers","Pasta","Desserts","Ice Cream","Beverages"];
-const foods=[
-{id:1,name:"Crispy Golden Fries",cat:"Starters",price:149,desc:"Golden, crunchy, perfectly seasoned.",img:"photo-1573080496219-bb080dd4f877",veg:true},
-{id:2,name:"Paneer Tikka",cat:"Starters",price:249,desc:"Smoky paneer with aromatic spices.",img:"photo-1567188040759-fb8a883dc6d8",veg:true},
-{id:3,name:"Crispy Chicken Wings",cat:"Starters",price:279,desc:"Crispy wings tossed in a house glaze.",img:"photo-1527477396000-e27163b481c2",veg:false},
-{id:4,name:"Classic Margherita",cat:"Pizza",price:299,desc:"Mozzarella, basil and rich tomato.",img:"photo-1579751626657-72bc17010498",veg:true},
-{id:5,name:"Loaded Farmhouse Pizza",cat:"Pizza",price:399,desc:"Fresh veggies and extra cheese.",img:"photo-1513104890138-7c749659a591",veg:true},
-{id:6,name:"Signature Cheeseburger",cat:"Burgers",price:329,desc:"Juicy patty, cheese and house sauce.",img:"photo-1568901346375-23c9450c58cd",veg:false},
-{id:7,name:"Crispy Veg Burger",cat:"Burgers",price:229,desc:"Crunchy patty with creamy dressing.",img:"photo-1550547660-d9450f859349",veg:true},
-{id:8,name:"Creamy Alfredo Pasta",cat:"Pasta",price:329,desc:"Creamy parmesan sauce and herbs.",img:"photo-1473093295043-cdd812d0e601",veg:true},
-{id:9,name:"Masala Dosa",cat:"Indian",price:179,desc:"Crisp dosa, potato masala and chutneys.",img:"photo-1668236543090-82eba5ee5976",veg:true},
-{id:10,name:"Paneer Butter Masala",cat:"Indian",price:299,desc:"Paneer in a rich tomato-butter gravy.",img:"photo-1631452180519-c014fe946bc7",veg:true},
-{id:11,name:"Royal Veg Biryani",cat:"Indian",price:279,desc:"Fragrant basmati rice and warming spices.",img:"photo-1563379091339-03246963d96c",veg:true},
-{id:12,name:"Butter Chicken",cat:"Indian",price:349,desc:"Tender chicken in creamy tomato gravy.",img:"photo-1603894584373-5ac82b2ae398",veg:false},
-{id:13,name:"Chocolate Lava Cake",cat:"Desserts",price:189,desc:"Warm chocolate cake with a molten centre.",img:"photo-1606313564200-e75d5e30476c",veg:true},
-{id:14,name:"New York Cheesecake",cat:"Desserts",price:229,desc:"Silky cheesecake with a buttery crust.",img:"photo-1533134242443-d4fd215305ad",veg:true},
-{id:15,name:"Belgian Chocolate Scoop",cat:"Ice Cream",price:99,desc:"Rich chocolate ice cream, one scoop.",img:"photo-1563805042-7684c019e1cb",veg:true},
-{id:16,name:"Strawberry Sundae",cat:"Ice Cream",price:179,desc:"Strawberry ice cream and fruity sauce.",img:"photo-1497034825429-c343d7c6a68f",veg:true},
-{id:17,name:"Cold Coffee",cat:"Beverages",price:149,desc:"Chilled, creamy coffee topped with foam.",img:"photo-1461023058943-07fcbe16d735",veg:true},
-{id:18,name:"Mango Smoothie",cat:"Beverages",price:169,desc:"A refreshing blend of sweet mango.",img:"photo-1505252585461-04db1eb84625",veg:true},
-{id:19,name:"Fresh Lime Mojito",cat:"Beverages",price:159,desc:"Lime, mint and sparkling refreshment.",img:"photo-1513558161293-cdaf765edfd4",veg:true},
-{id:20,name:"Masala Chai",cat:"Beverages",price:69,desc:"Indian tea brewed with warming spices.",img:"photo-1571934811356-5cc061b6821f",veg:true}
-];
-
-let selected="All",cart={};
-const params=new URLSearchParams(location.search);
-const tableFromQR=params.get("table");
-if(tableFromQR){
- document.getElementById("table").value=tableFromQR;
- document.getElementById("tableBadge").textContent="✦ Table "+tableFromQR+" · Scan to order";
+function demo(method) {
+  const result = document.getElementById("result");
+  result.textContent =
+    "✓ Demo successful! " + method +
+    " selected. No money was charged.";
 }
-function money(n){return "₹"+n.toLocaleString("en-IN")}
-function photo(id){return "https://images.unsplash.com/"+id+"?auto=format&fit=crop&w=600&q=80"}
-function renderCategories(){
- document.getElementById("categories").innerHTML=categories.map(c=>`<button class="${c===selected?"active":""}" onclick="selectCategory('${c}')">${c}</button>`).join("");
-}
-function selectCategory(c){selected=c;renderCategories();renderMenu()}
-function renderMenu(){
- const q=document.getElementById("search").value.toLowerCase();
- const list=foods.filter(f=>(selected==="All"||f.cat===selected)&&(f.name+" "+f.desc+" "+f.cat).toLowerCase().includes(q));
- document.getElementById("sectionTitle").textContent=selected==="All"?"Our favourites":selected;
- document.getElementById("menu").innerHTML=list.map(f=>`
- <article class="food-card">
- <img class="food-image" loading="lazy" src="${photo(f.img)}" alt="${f.name}">
- <div class="food-info"><div class="food-name">${f.name}</div>
- <div class="tag ${f.veg?"":"nonveg"}">${f.veg?"● Vegetarian":"● Non-vegetarian"}</div>
- <div class="food-desc">${f.desc}</div>
- <div class="food-bottom"><span class="price">${money(f.price)}</span><button class="add" aria-label="Add ${f.name}" onclick="changeQty(${f.id},1)">+</button></div></div></article>`).join("")||"<p>No dishes found. Try another search.</p>";
-}
-function changeQty(id,d){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];updateCart()}
-function subtotal(){return Object.entries(cart).reduce((s,[id,q])=>s+foods.find(f=>f.id===+id).price*q,0)}
-function updateCart(){
- const count=Object.values(cart).reduce((s,q)=>s+q,0),sub=subtotal();
- document.getElementById("cartCount").textContent=count;
- document.getElementById("bottomTotal").textContent=money(sub);
- document.getElementById("cartItems").innerHTML=count?Object.entries(cart).map(([id,q])=>{
-  const f=foods.find(x=>x.id===+id);
-  return `<div class="cart-item"><div><strong>${f.name}</strong><div style="color:var(--gold);margin-top:6px">${money(f.price*q)}</div></div><div class="qty"><button onclick="changeQty(${f.id},-1)">−</button>${q}<button onclick="changeQty(${f.id},1)">+</button></div></div>`;
- }).join(""):'<div class="empty">Your cart is waiting for something delicious. 🍰</div>';
- document.getElementById("subtotal").textContent=money(sub);
- const tax=Math.round(sub*.05);
- document.getElementById("tax").textContent=money(tax);
- document.getElementById("total").textContent=money(sub+tax);
-}
-function openCart(){document.getElementById("overlay").classList.add("open")}
-function closeCart(){document.getElementById("overlay").classList.remove("open")}
-function updateOrderType(){
- const dine=document.getElementById("orderType").value==="dine-in";
- document.getElementById("table").disabled=!dine;
- if(!dine)document.getElementById("table").value="";
-}
-function status(msg){document.getElementById("paymentStatus").textContent=msg}
-function getOrderPayload(){
- const items=Object.entries(cart).map(([id,quantity])=>({id:Number(id),quantity}));
- const type=document.getElementById("orderType").value;
- const table=document.getElementById("table").value.trim();
- const name=document.getElementById("customer").value.trim();
- const phone=document.getElementById("phone").value.trim();
- const notes=document.getElementById("notes").value.trim();
- if(!items.length)throw Error("Add at least one item.");
- if(!name)throw Error("Enter your name.");
- if(!/^[+0-9 ()-]{8,15}$/.test(phone))throw Error("Enter a valid phone number.");
- if(type==="dine-in"&&!table)throw Error("Enter your table number.");
- return {items,type,table:type==="dine-in"?table:"",name,phone,notes};
-}
-async function api(path,body){
- if(API_BASE.includes("YOUR-BACKEND-DOMAIN"))throw Error("Set API_BASE to your deployed backend URL first.");
- const r=await fetch(API_BASE+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
- const d=await r.json();if(!r.ok)throw Error(d.error||"Request failed");return d;
-}
-async function payRazorpay(){
- try{
-  const payload=getOrderPayload();status("Creating secure Razorpay order…");
-  const d=await api("/api/razorpay/create-order",payload);
-  const rzp=new Razorpay({
-   key:d.keyId,amount:d.amount,currency:d.currency,order_id:d.orderId,
-   name:"VELVET TABLE",description:"Restaurant order",
-   prefill:{name:payload.name,contact:payload.phone},theme:{color:"#e5bd78"},
-   handler:async response=>{
-    try{
-     status("Verifying payment securely…");
-     const v=await api("/api/razorpay/verify",{...response,orderId:d.orderId});
-     if(!v.verified)throw Error("Payment not verified. Ask staff to check before paying again.");
-     status("Payment verified. Order reference: "+v.orderId+". Show this reference to staff.");
-     cart={};updateCart();
-    }catch(e){status(e.message)}
-   },
-   modal:{ondismiss:()=>status("Checkout closed. Your cart is saved.")}
-  });
-  rzp.open();
- }catch(e){status(e.message)}
-}
-async function payPayPal(){
- try{
-  const payload=getOrderPayload();status("Creating PayPal order…");
-  const d=await api("/api/paypal/create-order",payload);
-  if(!d.approvalUrl)throw Error("PayPal approval link was not returned.");
-  window.location.href=d.approvalUrl;
- }catch(e){status(e.message)}
-}
-async function placeCashOrder(){
- try{
-  const payload=getOrderPayload();
-  if(!confirm("Place this order and pay cash at the restaurant?"))return;
-  status("Submitting cash order…");
-  const d=await api("/api/cash-order",payload);
-  status("Cash order placed. Reference: "+d.orderId+". Please pay staff at the restaurant.");
-  cart={};updateCart();
- }catch(e){status(e.message)}
-}
-function showQR(){
- document.getElementById("qrModal").classList.add("open");
- const url=new URL(location.href);url.hash="";
- document.getElementById("qrUrl").textContent=url.toString();
- const el=document.getElementById("qrCode");el.innerHTML="";
- if(window.QRCode)new QRCode(el,{text:url.toString(),width:180,height:180});
- else el.textContent="QR library is loading. Please try again.";
-}
-function hideQR(){document.getElementById("qrModal").classList.remove("open")}
-function downloadQR(){
- const canvas=document.querySelector("#qrCode canvas"),img=document.querySelector("#qrCode img");
- const src=canvas?canvas.toDataURL("image/png"):img?.src;
- if(!src){alert("QR code is not ready yet.");return}
- const a=document.createElement("a");a.href=src;a.download="velvet-table-menu-qr.png";a.click();
-}
-updateOrderType();renderCategories();renderMenu();updateCart();
 </script>
 </body>
 </html>
